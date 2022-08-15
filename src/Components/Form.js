@@ -1,66 +1,65 @@
+import { type } from '@testing-library/user-event/dist/type';
 import React, { useState } from 'react';
 import Input from './Input';
-import Option from './Option';
+import Options from './Options';
 
 const Form = () => {
 
-    const [percent, setPercent] = useState(0.21)
-    
-    const [amount, setAmount] = useState(0) 
-    const [pvm, setPvm] = useState(0) 
-    const [sum, setSum] = useState(0)
-    
-    const vatAmount = (sum - amount).toFixed(2)
-   
+    const [percent, setPercent] = useState(21)
+    const [bePvm, setBePvm] = useState(0)
+    const [pvmSuma, setPvmSuma] = useState(0)
+    const [bendraSuma, setBendraSuma] = useState(0)
+
+
     return (
-        <div className='container d-flex'>
-            <div className='form-control m-4'>
-                <div>
-                    <h4 className='text-center mb-4 mt-2'>PVM skaiciuotuvas</h4>
-                </div>
-            
-                <Option 
-                style= {{width: '200px'}}
-                styleSelect= {{width: '80px'}}
-                onchange = {(event) => {
-                    const percent = parseFloat(event.target.value)
-                    setPercent(percent)
-                    setSum((amount * (1 + percent)))
-                }}   
-                />
-
-                <Input 
-                labelText = {'Suma (be PVM)'}
-                name = {'be-pvm'}
-                style= {{width: '200px'}}
-                value = {amount}
-                onChange = {(event) => {
-                    setAmount(+event.target.value)
-                    setSum((parseFloat(event.target.value) * (1 + percent)))            
-                }}
-                 />
-
-                <Input 
-                labelText = {'PVM suma'}
-                name= {'pvm'}
-                style= {{width: '200px'}}
-                value = {vatAmount}
-                />  
+        <>
+            <div className='container d-flex'>
+                <div className='form-control m-4'>
+                    <div>
+                        <h4 className='text-center mb-4 mt-2'>PVM skaiciuotuvas</h4>
+                    </div>
                 
-                <Input 
-                labelText = {'Bendra suma (su PVM))'}
-                name = {'bendra-suma'}
-                style= {{width: '200px'}}
-                value = {sum}
-                onChange = {(event) => {
-                       setSum(+event.target.value)
-                       const amount = (parseFloat(event.target.value) * (1.0 - percent)).toFixed(2)
-                       setAmount(amount)
-                    }}
-                />
+                        <Options 
+                        style= {{width: '200px'}}
+                        onchange={(event) => {
+                            const percent = +event.target.value
+                            setPercent(percent)
+                            setBendraSuma((bePvm + ((bePvm/100) * percent)).toFixed(1))
+                        }}
+                        />
+
+                        <Input
+                        labelText = {'Suma (be PVM)'}
+                        style= {{width: '200px'}}
+                        value = { bePvm }
+                        onchange = { (event) => {
+                        const bepvm = +event.target.value
+                            setBePvm(bepvm)
+                            setBendraSuma((bePvm + ((bePvm/100) * percent)).toFixed(1))
+                        }}
+                        />
+
+                        <Input
+                        labelText = {'PVM suma'}
+                        style= {{width: '200px'}}
+                        disabled = {true}
+                        value = { parseFloat((bePvm/100) * percent).toFixed(1) }
+                        />
+
+                        <Input
+                        labelText = {'Bendra suma (su PVM)'}
+                        style= {{width: '200px'}}
+                        value = {bendraSuma}
+                        onchange = {(event) => {
+                            const bendra = +event.target.value
+                            setBendraSuma(bendra)
+                            setBePvm((parseFloat(bendra - ((bePvm/100) * percent))).toFixed(1))
+                        }}
+                        />
+                </div>
             </div>
-        </div>
-        
-    ) }
+        </>
+    );
+};
 
 export default Form;

@@ -1,18 +1,20 @@
 import React from 'react';
 
-const Input = ({labelText, onChange, value, style, name}) => {
+const Input = ({labelText, onchange, value, style, disabled}) => {
     return (
         <>
-       
-            <div className='d-flex justify-content-start align-items-center mb-3'>
-                <label style={style}>{labelText}</label>
-                <input style={style} name={name} className='form-control' type='text' onChange={onChange} value={value}/>
+            <div className='d-flex justify-content-center align-items-center mb-2'>
+                <label style={style}>{ labelText }</label>
+                <input
+                    disabled={disabled}
+                    style={style} 
+                    type="number" 
+                    onChange={onchange}
+                    value={value}
+                />
             </div>
-       
         </>
     );
-};
-
-
+}
 
 export default Input;
