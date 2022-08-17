@@ -33,9 +33,11 @@ const Form = () => {
                         style= {{width: '200px'}}
                         value = { bePvm }
                         onchange = { (event) => {
-                        const bepvm = +event.target.value
-                            setBePvm(bepvm)
-                            setBendraSuma((bePvm + ((bePvm/100) * percent)).toFixed(1))
+                        const value = +event.target.value
+                            setBePvm(value)
+                                                
+                            //console.log(value, ((bePvm/100) * percent))
+                            setBendraSuma((value + ((value/100) * percent)).toFixed(1))
                         }}
                         />
 
